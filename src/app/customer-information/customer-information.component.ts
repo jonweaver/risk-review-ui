@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { States } from '../models/states';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer-information',
@@ -26,12 +27,13 @@ export class CustomerInformationComponent {
   });
 
   hasUnitNumber = false;
-
+  @Output() submitted = new EventEmitter<boolean>();
   states = States;
 
   constructor(private fb: FormBuilder) { }
 
   onSubmit() {
-    alert('Thanks!');
+    sessionStorage.setItem('customerInformation', this.customerInfoForm.value);
+    this.submitted.emit(true);
   }
 }

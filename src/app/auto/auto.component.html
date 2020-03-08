@@ -1,0 +1,78 @@
+<div *ngIf="shouldShowCustomerInformationForm" class="ng-hide">
+    <app-customer-information (submitted)="onCustomerInformationComplete($event)"></app-customer-information>
+</div>
+
+<div class="example-container" *ngIf="!shouldShowCustomerInformationForm">
+    <form [formGroup]="currentCarrierForm" (ngSubmit)="onSubmit()">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Current Carrier Information</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="row">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Carrier Name" formControlName="currentCarrier">
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field>
+                        <input matInput placeholder="Expiration Date (MM/DD/YYYY)" formControlName="expirationDate">
+                        <mat-error
+                            *ngIf="currentCarrierForm.controls['expirationDate'].hasError('requiredIfValidator')">
+                            expiration date is required
+                        </mat-error>
+                        <mat-error *ngIf="currentCarrierForm.controls['expirationDate'].hasError('pattern')">
+                            Date format is wrong <strong> (MM/DD/YYYY)</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field>
+                        <input matInput placeholder="Premium" type="number" formControlName="premium">
+                        <mat-error *ngIf="currentCarrierForm.controls['premium'].hasError('requiredIfValidator')">
+                            premium is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <label>Policy Term: </label>
+                    <mat-radio-group aria-label="Policy Term" [formControl]="policyTerm">
+                        <mat-radio-button value="6 Months">Six Months</mat-radio-button>
+                        <mat-radio-button value="Yearly">Yearly</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+    </form>
+
+    <form>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Driver Information</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Total Household Members"
+                                formControlName="totalNumberOfHouseholdMembers">
+                            <mat-error
+                                *ngIf="houseHoldInfoForm.controls['totalNumberOfHouseholdMembers'].hasError('required')">
+                                number of household members is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Number of Drivers" formControlName="numberOfDrivers">
+                            <mat-error *ngIf="houseHoldInfoForm.controls['numberOfDrivers'].hasError('required')">
+                                Number of drivers is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </form>
+</div>
